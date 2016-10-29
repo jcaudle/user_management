@@ -1,4 +1,16 @@
-<h1>User Management!</h1>
-<p>Hi there! Welcome to the place where you can manage user's access and control of things!</p>
-<p>New here?</p>
-<p>Been around before?</p>
+<div class="jumbotron">
+  <h1>User Management!</h1>
+  <p>Hi there! Welcome to the place where you can manage user's access and control of things!</p>
+</div>
+<% unless user_signed_in? %>
+<div class="container">
+  <div class="col-md-6">
+    <h2>New here?</h2>
+    <%= link_to "Sign Up!", new_user_registration_path, class: "btn btn-default" %>
+  </div>
+  <div class="col-md-6">
+    <h2>Been around before?</h2>
+    <%= link_to "Sign in!", new_user_session_path, class: "btn btn-default" %>
+  </div>
+</div>
+<% end %>
