@@ -16,6 +16,11 @@
             <%= link_to "User Management", root_path, class: "navbar-brand" %>
           </div>
           <div id="navbar">
+            <% if user_signed_in? %>
+              <ul class="nav navbar-nav">
+                <li><%= link_to "Things", things_path %></li>
+              </ul>
+            <% end %>
             <ul class="nav navbar-nav navbar-right">
               <% if user_signed_in? %>
                 <li><p class="navbar-text">Signed in as <%= link_to current_user.email, edit_user_registration_path, class: "navbar-link" %></p></li>
@@ -29,10 +34,10 @@
         </div>
       </nav>
       <% if notice %>
-        <p class="notice"><%= notice %></p>
+        <div class="alert alert-success"><%= notice %></div>
       <% end %>
       <% if alert %>
-        <p class="alert"><%= alert %></p>
+        <div class="alert alert-danger"><%= alert %></div>
       <% end %>
       <%= yield %>
     </div>

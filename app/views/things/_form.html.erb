@@ -1,0 +1,22 @@
+<%= form_for(thing) do |f| %>
+  <% if thing.errors.any? %>
+    <div id="alert alert-danger">
+      <h2><%= pluralize(thing.errors.count, "error") %> prohibited this thing from being saved:</h2>
+
+      <ul>
+      <% thing.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: "btn btn-default" %>
+  </div>
+<% end %>
