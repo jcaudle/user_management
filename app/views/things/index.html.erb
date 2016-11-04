@@ -8,7 +8,9 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="3" class="action">Actions</th>
+      <% if can?(:read, Thing) || can?(:update, Thing) || can?(:destroy, Thing) %>
+        <th colspan="3" class="action">Actions</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -16,9 +18,21 @@
     <% @things.each do |thing| %>
       <tr>
         <td><%= thing.name %></td>
-        <td class="action"><%= link_to 'Show', thing %></td>
-        <td class="action"><%= link_to 'Edit', edit_thing_path(thing) %></td>
-        <td class="action"><%= link_to 'Destroy', thing, method: :delete, data: { confirm: "Are you sure you want to destroy #{thing.name}?" } %></td>
+        <% if can? :read, thing %>
+          <td class="action">
+            <%= link_to 'Show', thing %>
+          </td>
+        <% end %>
+        <% if can? :update, thing %>
+          <td class="action">
+            <%= link_to 'Edit', edit_thing_path(thing) %>
+          </td>
+        <% end %>
+        <% if can? :destroy, thing %>
+          <td class="action">
+            <%= link_to 'Destroy', thing, method: :delete, data: { confirm: "Are you sure you want to destroy #{thing.name}?" } %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +40,4 @@
 
 <br>
 
-<%= link_to 'New Thing', new_thing_path %>
+<%= link_to 'New Thing', new_thing_path if can? :create, Thing %>

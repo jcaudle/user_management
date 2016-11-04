@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   ABILITIES = %i{
     read_things
-    write_things
+    create_things
+    modify_things
     delete_things
     modify_users
   }

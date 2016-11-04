@@ -2,6 +2,7 @@ module Admin
   class UsersController < ApplicationController
     before_action :user_params, only: :update
     before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
       @users = User.all

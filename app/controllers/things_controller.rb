@@ -1,6 +1,9 @@
 class ThingsController < ApplicationController
   before_action :set_thing, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :index
+
+  load_and_authorize_resource
+  skip_authorize_resource only: :index
 
   # GET /things
   # GET /things.json
@@ -29,8 +32,13 @@ class ThingsController < ApplicationController
 
     respond_to do |format|
       if @thing.save
-        format.html { redirect_to @thing, notice: "#{@thing.name} was successfully created." }
-        format.json { render :show, status: :created, location: @thing }
+        if can? :read, @thing
+          format.html { redirect_to @thing, notice: "#{@thing.name} was successfully created." }
+          format.json { render :show, status: :created, location: @thing }
+        else
+          format.html { redirect_to things_path, notice: "#{@thing.name} was successfully created, but you aren't authorized to see it now." }
+          format.json { render :index, status: :created, location: @thing }
+        end
       else
         format.html { render :new }
         format.json { render json: @thing.errors, status: :unprocessable_entity }
@@ -43,8 +51,13 @@ class ThingsController < ApplicationController
   def update
     respond_to do |format|
       if @thing.update(thing_params)
-        format.html { redirect_to @thing, notice: "#{@thing.name} was successfully updated." }
-        format.json { render :show, status: :ok, location: @thing }
+        if can? :read, @thing
+          format.html { redirect_to @thing, notice: "#{@thing.name} was successfully updated." }
+          format.json { render :show, status: :created, location: @thing }
+        else
+          format.html { redirect_to things_path, notice: "#{@thing.name} was successfully updated, but for a truly Kafka-esque experience you aren't authorized to see it now, even though you just saw all the details of it." }
+          format.json { render :index, status: :created, location: @thing }
+        end
       else
         format.html { render :edit }
         format.json { render json: @thing.errors, status: :unprocessable_entity }

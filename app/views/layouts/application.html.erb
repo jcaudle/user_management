@@ -16,11 +16,12 @@
             <%= link_to "User Management", root_path, class: "navbar-brand" %>
           </div>
           <div id="navbar">
-            <% if user_signed_in? %>
-              <ul class="nav navbar-nav">
-                <li><%= link_to "Things", things_path %></li>
-              </ul>
-            <% end %>
+            <ul class="nav navbar-nav">
+              <li><%= link_to "Things", things_path %></li>
+              <% if can? :manage, User %>
+                <li><%= link_to "Manage Users", admin_users_path %></li>
+              <% end %>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
               <% if user_signed_in? %>
                 <li><p class="navbar-text">Signed in as <%= link_to current_user.email, edit_user_registration_path, class: "navbar-link" %></p></li>
