@@ -21,7 +21,7 @@ class User < ApplicationRecord
       (abilities_mask & 2**ABILITIES.index(r)).zero?
     end
   end
-  
+
   # Calculate the proper mask value when setting abilities from a single ability or array of abilities
   def abilities=(abilities)
     abilities = [*abilities].map { |r| r.to_sym }

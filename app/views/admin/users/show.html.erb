@@ -1,0 +1,10 @@
+<h1>Manage abilities for <%= @user.email %></h1>
+<%= form_for @user, url: admin_user_path(@user) do |f| %>
+  <% User::ABILITIES.each do |ability| %>
+      <%= check_box_tag "user[abilities][#{ability}]", ability, @user.has_ability?(ability), name: "user[abilities][]" %>
+      <%= label_tag "user_abilities_#{ability}", ability.to_s.humanize %><br />
+  <% end %>
+  <%= hidden_field_tag "user[abilities][]", "" %>
+
+  <%= f.submit %>
+<% end %>
